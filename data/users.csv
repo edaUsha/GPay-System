@@ -1,0 +1,6 @@
+user_id,balance,currency,password
+USER_A,2849.0,INR,user1
+USER_B,2801.0,INR,user2
+USER_C,1100.0,INR,user3
+USER_D,6381.0,INR,user4
+USER_E,1500.0,INR,user5
