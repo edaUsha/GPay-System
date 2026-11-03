@@ -1,0 +1,6 @@
+pandas
+scikit-learn
+requests
+imbalanced-learn
+streamlit
+Flask
