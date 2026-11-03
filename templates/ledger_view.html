@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Active Ledger Balance</title>
+    <style>
+        body { font-family: sans-serif; padding: 40px; background: #f0f2f5; }
+        table { border-collapse: collapse; width: 100%; max-width: 500px; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background-color: #C0C888; color: #333; }
+    </style>
+</head>
+<body>
+    <h2>Live Account Database Ledger</h2>
+    <table>
+        <tr><th>User ID</th><th>Balance</th><th>Currency</th></tr>
+        {% for row in data %}
+        <tr><td>{{ row.user_id }}</td><td>{{ row.balance }}</td><td>{{ row.currency }}</td></tr>
+        {% endfor %}
+    </table>
+    <br>
+    <a href="/" style="text-decoration: none; font-weight: bold; color: #333;">← Back to App</a>
+</body>
+</html>

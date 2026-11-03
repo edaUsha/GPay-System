@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>P2P Payment System</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f5f7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        /* Clean, Solid Flat Yellow Layout Window Frame */
+        .app-container {
+            background-color: #FCE79F;
+            width: 340px;
+            height: 520px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+            padding: 35px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        h2 {
+            font-size: 30px;
+            margin: 0 0 35px 0;
+            color: #222;
+            font-weight: 700;
+            text-align: left;
+        }
+
+        .input-title {
+            font-size: 15px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        /* Mockup Field Input Styling */
+        .form-control {
+            background-color: #C0C888;
+            border: none;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 15px;
+            color: #222;
+            width: 100%;
+            box-sizing: border-box;
+            margin-bottom: 15px;
+        }
+
+        /* Dropdown selector matching your flat palette variables */
+        select.form-control {
+            appearance: none;
+            cursor: pointer;
+        }
+
+        .logged-in-badge {
+            font-size: 14px;
+            color: #444;
+            font-weight: 600;
+            margin-bottom: 25px;
+            background-color: rgba(192, 200, 136, 0.4);
+            padding: 8px 12px;
+            border-radius: 6px;
+            display: inline-block;
+        }
+
+        /* Flat Interactive Buttons UI Elements */
+        .btn {
+            background-color: #C0C888;
+            color: #222;
+            border: none;
+            padding: 14px;
+            border-radius: 25px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-bottom: 12px;
+            width: 100%;
+            text-align: center;
+            text-decoration: none;
+            display: block;
+            box-sizing: border-box;
+            transition: opacity 0.15s ease;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            border: 2px solid #C0C888;
+            color: #222;
+        }
+
+        /* Dynamic Feedback Text Layouts */
+        .status-msg {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 15px;
+            line-height: 1.4;
+        }
+        .text-success { color: #2e7d32; font-size: 13px; font-weight: bold; margin-bottom: 15px; }
+        .text-error { color: #c62828; font-size: 13px; font-weight: bold; margin-bottom: 15px; }
+        
+        .balance-display {
+            font-size: 32px;
+            font-weight: 700;
+            color: #222;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        
+        <!-- ========================================== -->
+        <!-- DESKTOP 6: LOGIN CREDENTIALS GATEWAY -->
+        <!-- ========================================== -->
+        {% if screen == 'desktop_6' %}
+        <h2>P2P System</h2>
+        <div style="margin-top: -15px; font-weight: bold; font-size: 16px; margin-bottom: 20px; color: #444;">Login Credentials</div>
+        
+        {% if msg_success %}
+            <div class="text-success">✅ {{ msg_success }}</div>
+        {% endif %}
+        {% if msg_error %}
+            <div class="text-error">❌ {{ msg_error }}</div>
+        {% endif %}
+
+        <form action="/login" method="POST" style="margin-bottom: 0;">
+            <div class="input-title">Name:</div>
+            <input type="text" name="username" class="form-control" placeholder="Enter User ID" required>
+            
+            <div class="input-title">Password:</div>
+            <input type="password" name="password" class="form-control" placeholder="Enter Password" required>
+            
+            <button type="submit" class="btn" style="margin-top: 10px; margin-bottom: 10px;">Login</button>
+        </form>
+        
+        <!-- Solid Block Layout Action for New Account Onboarding -->
+        <a href="/register-screen" class="btn btn-secondary">Register</a>
+
+        <!-- ========================================== -->
+        <!-- NEW CARD: ACCOUNT ONBOARDING PROFILE FORM  -->
+        <!-- ========================================== -->
+        {% elif screen == 'register' %}
+        <h2>P2P System</h2>
+        <div style="margin-top: -15px; font-weight: bold; font-size: 16px; margin-bottom: 25px; color: #444;">Create Account</div>
+        
+        <form action="/register" method="POST">
+            <div class="input-title">User ID:</div>
+            <input type="text" name="reg_username" class="form-control" placeholder="Create Unique ID" required autocomplete="off">
+            
+            <div class="input-title">Password:</div>
+            <input type="password" name="reg_password" class="form-control" placeholder="Create Password" required>
+            
+            <div class="input-title">Currency:</div>
+            <select name="reg_currency" class="form-control" required>
+                <option value="INR">INR (₹)</option>
+                <option value="USD">USD ($)</option>
+                <option value="EUR">EUR (€)</option>
+            </select>
+            
+            <button type="submit" class="btn" style="margin-top: 20px; margin-bottom: 10px;">Create Profile</button>
+            <a href="/" class="btn btn-secondary">Back to Login</a>
+        </form>
+
+        <!-- ========================================== -->
+        <!-- DESKTOP 1: MAIN NAVIGATION MENU -->
+        <!-- ========================================== -->
+        {% elif screen == 'desktop_1' %}
+        <h2>P2P System</h2>
+        <div style="margin-top: 20px;">
+            <a href="/pay-screen" class="btn">Pay Someone</a>
+            <a href="/check-balance" class="btn">Check Balance</a>
+            <a href="/logout" class="btn btn-secondary" style="margin-top: 60px;">Logout</a>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- DESKTOP 2: INTERACTIVE TRANSACTION SCREEN -->
+        <!-- ========================================== -->
+        {% elif screen == 'desktop_2' %}
+        <h2>P2P System</h2>
+        <div class="logged-in-badge">Logged in as: {{ session['user_id'] }}</div>
+        
+        <form action="/process-payment" method="POST">
+            <div class="input-title">Reciever ID:</div>
+            <input type="text" name="receiver_id" class="form-control" required autocomplete="off">
+            
+            <div class="input-title">Amount:</div>
+            <input type="number" name="amount" class="form-control" min="1" required>
+            
+            <button type="submit" class="btn" style="margin-top: 15px; margin-bottom: 10px;">SEND</button>
+            <a href="/logout" class="btn btn-secondary">Logout</a>
+        </form>
+
+        <!-- ========================================== -->
+        <!-- DESKTOP 3: TRANSACTION SUCCESS WINDOW -->
+        <!-- ========================================== -->
+        {% elif screen == 'desktop_3' %}
+        <h2>P2P System</h2>
+        <div class="status-msg text-success" style="font-size: 18px;">AMOUNT SENT To {{ receiver }}!</div>
+        <a href="/home" class="btn" style="margin-top: auto;">Return Home</a>
+
+        <!-- ========================================== -->
+        <!-- DESKTOP 4: RECIEPENT INVALID INTERCEPT -->
+        <!-- ========================================== -->
+        {% elif screen == 'desktop_4' %}
+        <h2>P2P System</h2>
+        <div class="status-msg text-error" style="font-size: 18px;">RECIEPENT INVALID</div>
+        <a href="/pay-screen" class="btn" style="margin-top: auto;">Try Again</a>
+
+        <!-- ========================================== -->
+        <!-- DESKTOP 5: INSUFFICIENT BALANCE WARNING -->
+        <!-- ========================================== -->
+        {% elif screen == 'desktop_5' %}
+        <h2>P2P System</h2>
+        <div class="status-msg text-error" style="font-size: 18px;">INSUFFICIENT AMOUNT</div>
+        <a href="/pay-screen" class="btn" style="margin-top: auto;">Try Again</a>
+
+        <!-- ========================================== -->
+        <!-- DESKTOP 7: ISOLATED USER BALANCE VIEW -->
+        <!-- ========================================== -->
+        {% elif screen == 'desktop_7' %}
+        <h2>P2P System</h2>
+        <div class="input-title" style="margin-top: 15px;">Balance of User</div>
+        <div class="balance-display">{{ balance_val }} {{ currency_val }}</div>
+        <a href="/home" class="btn" style="margin-top: auto;">Back</a>
+
+        <!-- ========================================== -->
+        <!-- AI EXPLOIT ENGINE DEFENSE NOTIFICATION -->
+        <!-- ========================================== -->
+        {% elif screen == 'ml_block' %}
+        <h2>Blocked</h2>
+        <div class="status-msg text-error" style="font-size: 18px;">🚨 SECURITY ALERT:<br>FRAUD VECTOR TRIGGERED BY ML ENGINE</div>
+        <a href="/home" class="btn" style="margin-top: auto;">Back to Safety</a>
+        {% endif %}
+
+    </div>
+
+</body>
+</html>
